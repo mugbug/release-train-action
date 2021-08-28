@@ -1,0 +1,38 @@
+name: 'Release Train Action'
+description: 'Automated release train for mobile apps'
+inputs:
+  command:
+    description: 'release-train or tag'
+    required: true
+  release-owner:
+    description: 'User or team that will be added as reviewer to release PRs'
+    required: true
+  release-branch:
+    description: 'TBD'
+    required: false
+    default: 'release-train'
+  development-branch:
+    description: 'TBD'
+    required: false
+    default: 'develop'
+  stable-branch:
+    description: 'TBD'
+    required: false
+    default: 'master'
+# outputs:
+  # random-number:
+  #   description: "Random number"
+  #   value: ${{ steps.random-number-generator.outputs.random-id }}
+runs:
+  using: "composite"
+  steps:
+    - name: Run workflow
+      shell: bash
+      run: |
+        export COMMAND=${{ inputs.command }}
+        export RELEASE_OWNER=${{ inputs.release-owner }}
+        export RELEASE_BRANCH=${{ inputs.release-branch }}
+        export CURRENT_BRANCH=${{ inputs.development-branch }}
+        export STABLE_BRANCH=${{ inputs.stable-branch }}
+        export ROOT_PATH=${{ github.action_path }}
+        $ROOT_PATH/release-train.sh
