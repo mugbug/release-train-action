@@ -29,6 +29,7 @@ runs:
     - name: Run workflow
       shell: bash
       run: |
+        export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
         export COMMAND=${{ inputs.command }}
         export RELEASE_OWNER=${{ inputs.release-owner }}
         export RELEASE_BRANCH=${{ inputs.release-branch }}
