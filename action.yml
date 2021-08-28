@@ -39,4 +39,4 @@ runs:
         export CURRENT_BRANCH=${{ inputs.development-branch }}
         export STABLE_BRANCH=${{ inputs.stable-branch }}
         export ROOT_PATH=${{ github.action_path }}
-        $ROOT_PATH/release-train.sh
+        $ROOT_PATH/action.sh

@@ -7,13 +7,8 @@ git fetch --tags origin $CURRENT_BRANCH
 git config --global user.name "github-actions"
 git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-echo "👤 Login to GH CLI"
-echo "$GITHUB_TOKEN" > token.txt
-gh auth login --with-token < token.txt
-rm token.txt
-
 echo "🔀 Switch to release branch"
-git checkout -b release-train
+git checkout -b $RELEASE_BRANCH
 
 echo "📝 Save current release notes"
 npx standard-version --dry-run --silent > RELEASE_NOTES.md
@@ -26,20 +21,20 @@ npx standard-version
 
 echo "📥 Update current branch with master"
 git merge --no-edit --strategy-option ours origin/$STABLE_BRANCH
-git push origin release-train
+git push origin $RELEASE_BRANCH
 
 echo "🔁 Open PRs with changes"
 PACKAGE_VERSION=$(grep version package.json | cut -c 15- | rev | cut -c 3- | rev)
 gh pr create --fill \
-    --reviewer mugbug \
-    --assignee mugbug \
+    --reviewer $RELEASE_OWNER \
+    --assignee $RELEASE_OWNER \
     --label release-train \
     --base $STABLE_BRANCH \
     --title "release: $PACKAGE_VERSION" \
     --body "$(cat RELEASE_NOTES.md)"
 gh pr create --fill \
-    --reviewer mugbug \
-    --assignee mugbug \
+    --reviewer $RELEASE_OWNER \
+    --assignee $RELEASE_OWNER \
     --label release-train \
     --base $CURRENT_BRANCH \
     --title "release: $PACKAGE_VERSION (update develop)" \
