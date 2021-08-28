@@ -7,6 +7,11 @@ git fetch --tags origin $CURRENT_BRANCH
 git config --global user.name "github-actions"
 git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+echo "👤 Login to GH CLI"
+echo "$GH_CLI_TOKEN" > token.txt
+gh auth login --with-token < token.txt
+rm token.txt
+
 echo "🔀 Switch to release branch"
 git checkout -b $RELEASE_BRANCH
 

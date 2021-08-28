@@ -32,7 +32,7 @@ runs:
     - name: Run workflow
       shell: bash
       run: |
-        export GITHUB_TOKEN=${{ inputs.token }}
+        export GH_CLI_TOKEN=${{ inputs.token }}
         export COMMAND=${{ inputs.command }}
         export RELEASE_OWNER=${{ inputs.release-owner }}
         export RELEASE_BRANCH=${{ inputs.release-branch }}
