@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ $COMMAND = 'release-train']; then
     $ROOT_PATH/release-train.sh
 fi

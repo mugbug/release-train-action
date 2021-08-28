@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "🔨 Setup environment"
 npm install
 git fetch --prune --unshallow
