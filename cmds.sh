@@ -9,13 +9,11 @@ CONVENTIONAL_COMMIT_REGEX="^(feat|fix|chore|refactor|docs|ci)(\(([a-zA-Z]+\-[0-9
 function lint_pr_title() {
   echo "🔍 Lint PR title"
 
-  echo "PR TITLE: $PR_TITLE"
-
   if [[ "$PR_TITLE" =~ $CONVENTIONAL_COMMIT_REGEX ]]; then
     echo "matches"
   else 
     echo "failure title lint"
-    send_comment_to_pr $1
+    send_comment_to_pr "$1"
     exit 1
   fi
 }
@@ -24,7 +22,7 @@ function lint_pr_destination_branch() {
   echo "🔍 Check PR destination branch"
   if [[ "$DESTINATION_BRANCH" == "$STABLE_BRANCH" && "$CURRENT_BRANCH" != "$RELEASE_BRANCH" ]]; then
     echo "failure"
-    send_comment_to_pr $1
+    send_comment_to_pr "$1"
     exit 1
   else
     echo "ok!"
