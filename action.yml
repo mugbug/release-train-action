@@ -10,7 +10,10 @@ inputs:
   release-owner:
     description: 'User or team that will be added as reviewer to release PRs'
     required: false
-  comment-message:
+  title-lint-message:
+    description: 'tbd'
+    required: false
+  base-branch-lint-message:
     description: 'tbd'
     required: false
 
@@ -51,7 +54,8 @@ runs:
         export STABLE_BRANCH=${{ inputs.stable-branch }}
         
         export RELEASE_OWNER=${{ inputs.release-owner }}
-        export COMMENT_MESSAGE=${{ inputs.comment-message }}
+        export BASE_BRANCH_LINT_MESSAGE=${{ inputs.base-branch-lint-message }}
+        export TITLE_LINT_MESSAGE=${{ inputs.title-lint-message }}
 
         echo "run action"
         $ROOT_PATH/action.sh

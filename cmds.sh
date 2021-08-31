@@ -15,7 +15,7 @@ function lint_pr_title() {
     echo "matches"
   else 
     echo "failure title lint"
-    send_comment_to_pr
+    send_comment_to_pr $1
     exit 1
   fi
 }
@@ -24,7 +24,7 @@ function lint_pr_destination_branch() {
   echo "🔍 Check PR destination branch"
   if [[ "$DESTINATION_BRANCH" == "$STABLE_BRANCH" && "$CURRENT_BRANCH" != "$RELEASE_BRANCH" ]]; then
     echo "failure"
-    send_comment_to_pr
+    send_comment_to_pr $1
     exit 1
   else
     echo "ok!"
@@ -33,7 +33,7 @@ function lint_pr_destination_branch() {
 
 function send_comment_to_pr() {
   echo "💬 Posting comment..."
-  gh pr review --comment -b $COMMENT_MESSAGE
+  gh pr review --comment -b $1
 }
 
 # -------------
