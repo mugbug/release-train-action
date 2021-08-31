@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./cmds.sh
 
 lint_pr_title "$BASE_BRANCH_LINT_MESSAGE"
