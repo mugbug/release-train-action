@@ -31,7 +31,7 @@ function lint_pr_destination_branch() {
 
 function send_comment_to_pr() {
   echo "💬 Posting comment..."
-  gh pr review --comment -b $1
+  gh pr review --comment -b $CURRENT_BRANCH "$1"
 }
 
 # -------------
