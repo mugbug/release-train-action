@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./cmds.sh
+source $ROOT_PATH/cmds.sh
 
 setup_git
 check_for_new_changes_available

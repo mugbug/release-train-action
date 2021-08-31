@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./cmds.sh
+source $ROOT_PATH/cmds.sh
 
 setup_git
 login_to_github_cli
