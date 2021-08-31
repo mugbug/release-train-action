@@ -39,6 +39,7 @@ runs:
         export ROOT_PATH=${{ github.action_path }}
         export DESTINATION_BRANCH=${{ github.event.pull_request.base.ref }}
         export CURRENT_BRANCH=${{ github.event.pull_request.head.ref }}
+        export PR_TITLE=${{ github.event.pull_request.title }}
 
         echo "inputs"
         export GH_CLI_TOKEN=${{ inputs.token }}
