@@ -17,6 +17,16 @@ inputs:
     description: 'tbd'
     required: false
 
+  destination-branch:
+    description: 'tbd'
+    required: false
+  current-branch:
+    description: 'tbd'
+    required: false
+  pr-title:
+    description: 'tbd'
+    required: false
+
   release-branch:
     description: 'TBD'
     required: false
@@ -25,9 +35,6 @@ inputs:
     description: 'TBD'
     required: false
     default: 'develop'
-  current-branch:
-    description: 'TBD'
-    required: false
   stable-branch:
     description: 'TBD'
     required: false
@@ -40,9 +47,9 @@ runs:
       run: |
         echo "configs"
         export ROOT_PATH=${{ github.action_path }}
-        export DESTINATION_BRANCH=${{ github.event.pull_request.base.ref }}
-        export CURRENT_BRANCH=${{ github.event.pull_request.head.ref }}
-        export PR_TITLE=${{ github.event.pull_request.title }}
+        export DESTINATION_BRANCH=${{ inputs.development-branch }}
+        export CURRENT_BRANCH=${{ inputs.current-branch }}
+        export PR_TITLE=${{ inputs.pr-title }}
 
         echo "inputs"
         export GH_CLI_TOKEN=${{ inputs.token }}
@@ -50,7 +57,6 @@ runs:
 
         export RELEASE_BRANCH=${{ inputs.release-branch }}
         export DEVELOPMENT_BRANCH=${{ inputs.development-branch }}
-        export CURRENT_BRANCH=${{ inputs.current-branch }}
         export STABLE_BRANCH=${{ inputs.stable-branch }}
         
         export RELEASE_OWNER=${{ inputs.release-owner }}
