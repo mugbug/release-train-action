@@ -4,10 +4,8 @@
 # pr linter
 # -------------
 
-# broken
-CONVENTIONAL_COMMIT_REGEX="^((((feat|fix|chore|refactor|docs|ci)(?:\((\w+\D\-\d+)\)))|release)!?:(.*))$"
+CONVENTIONAL_COMMIT_REGEX="^(feat|fix|chore|refactor|docs|ci)(\(([a-zA-Z]+\-[0-9]+)\))!?:(.*)|release:(.*)$"
 
-# TODO: broken 
 function lint_pr_title() {
   echo "🔍 Lint PR title"
 
@@ -16,7 +14,7 @@ function lint_pr_title() {
   if [[ "$PR_TITLE" =~ $CONVENTIONAL_COMMIT_REGEX ]]; then
     echo "matches"
   else 
-    echo "failure"
+    echo "failure title lint"
     send_comment_to_pr
     exit 1
   fi
@@ -33,7 +31,6 @@ function lint_pr_destination_branch() {
   fi
 }
 
-# TODO: sending to current branch;
 function send_comment_to_pr() {
   echo "💬 Posting comment..."
   gh pr review --comment -b $COMMENT_MESSAGE
@@ -47,9 +44,17 @@ function setup_git() {
   echo "🔨 Setup environment"
   npm install
   git fetch --prune --unshallow
-  git fetch --tags origin $CURRENT_BRANCH
+  fetch_tags
   git config --global user.name "github-actions"
   git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+}
+
+function fetch_tags() {
+  if [ -z "$CURRENT_BRANCH" ]; then
+    git fetch --tags origin $CURRENT_BRANCH
+  else
+    git fetch --tags origin $DEVELOPMENT_BRANCH
+  fi
 }
 
 function check_for_new_changes_available() {
@@ -100,6 +105,30 @@ function update_with_base_branch() {
   echo "📥 Update current branch with $STABLE_BRANCH"
   git merge --no-edit --strategy-option ours origin/$STABLE_BRANCH
   git push origin $RELEASE_BRANCH
+}
+
+function push_changes_to_current_branch() {
+  echo "Push changes to $CURRENT_BRANCH"
+  git push origin $CURRENT_BRANCH
+}
+
+function open_pull_request_to_development_branch() {
+  echo "🔁 Open PRs to $DEVELOPMENT_BRANCH"
+  PACKAGE_VERSION=$(grep version package.json | cut -c 15- | rev | cut -c 3- | rev)
+  gh pr create --fill \
+      --reviewer $RELEASE_OWNER \
+      --assignee $RELEASE_OWNER \
+      --label release-train \
+      --base $STABLE_BRANCH \
+      --title "release: $PACKAGE_VERSION" \
+      --body "$(cat RELEASE_NOTES.md)"
+  gh pr create --fill \
+      --reviewer $RELEASE_OWNER \
+      --assignee $RELEASE_OWNER \
+      --label release-train \
+      --base $DEVELOPMENT_BRANCH \
+      --title "release: $PACKAGE_VERSION (update develop)" \
+      --body "$(cat RELEASE_NOTES.md)"
 }
 
 function open_pull_requests() {
