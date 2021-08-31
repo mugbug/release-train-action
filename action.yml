@@ -2,14 +2,18 @@ name: 'Release Train Action'
 description: 'Automated release train for mobile apps'
 inputs:
   command:
-    description: 'release-train or tag'
+    description: 'Options: release-train; tag; hotfix; pr-linter'
     required: true
   token:
     description: 'GITHUB_TOKEN'
     required: true
   release-owner:
     description: 'User or team that will be added as reviewer to release PRs'
-    required: true
+    required: false
+  comment-message:
+    description: 'tbd'
+    required: false
+
   release-branch:
     description: 'TBD'
     required: false
@@ -18,25 +22,35 @@ inputs:
     description: 'TBD'
     required: false
     default: 'develop'
+  current-branch:
+    description: 'TBD'
+    required: false
   stable-branch:
     description: 'TBD'
     required: false
     default: 'master'
-# outputs:
-  # random-number:
-  #   description: "Random number"
-  #   value: ${{ steps.random-number-generator.outputs.random-id }}
 runs:
   using: "composite"
   steps:
     - name: Run workflow
       shell: bash
       run: |
+        echo "configs"
+        export ROOT_PATH=${{ github.action_path }}
+        export DESTINATION_BRANCH=${{ github.event.pull_request.base.ref }}
+        export CURRENT_BRANCH=${{ github.event.pull_request.head.ref }}
+
+        echo "inputs"
         export GH_CLI_TOKEN=${{ inputs.token }}
         export COMMAND=${{ inputs.command }}
-        export RELEASE_OWNER=${{ inputs.release-owner }}
+
         export RELEASE_BRANCH=${{ inputs.release-branch }}
-        export CURRENT_BRANCH=${{ inputs.development-branch }}
+        export DEVELOPMENT_BRANCH=${{ inputs.development-branch }}
+        export CURRENT_BRANCH=${{ inputs.current-branch }}
         export STABLE_BRANCH=${{ inputs.stable-branch }}
-        export ROOT_PATH=${{ github.action_path }}
+        
+        export RELEASE_OWNER=${{ inputs.release-owner }}
+        export COMMENT_MESSAGE=${{ inputs.comment-message }}
+
+        echo "run action"
         $ROOT_PATH/action.sh

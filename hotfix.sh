@@ -8,6 +8,5 @@ login_to_github_cli
 switch_to_release_branch
 save_current_release_notes
 run_standard_version
-update_with_base_branch
-open_pull_requests
-create_tag_for_release_candidate
+push_changes_to_current_branch
+open_pull_request_to_development_branch
