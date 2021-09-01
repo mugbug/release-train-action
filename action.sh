@@ -2,6 +2,12 @@
 
 if [ "$COMMAND" = "release-train" ]; then
     $ROOT_PATH/release-train.sh
+
+    if [ "$RELEASE_TYPE" = "ios" ]; then
+        $ROOT_PATH/ios_testflight.sh
+        $ROOT_PATH/ios_appstore.sh
+    fi
+
     exit $?
 fi
 

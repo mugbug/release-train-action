@@ -35,7 +35,7 @@ function lint_pr_destination_branch() {
 
 function send_comment_to_pr() {
   echo "💬 Posting comment..."
-  gh pr review $CURRENT_BRANCH --comment -F "$1"
+  gh pr review $CURRENT_BRANCH --comment -b "$1"
 }
 
 # -------------
@@ -191,4 +191,43 @@ function increment_xcodeproj_version() {
     cd ..
     git add .
     git commit -m 'release: bump xcodeproj versions'
+}
+
+function switch_to_release_branch() {
+  echo "🔀 Checkout to $RELEASE_BRANCH branch"
+  git checkout $RELEASE_BRANCH
+}
+
+function setup_ios_env() {
+  echo "💎 Install gems"
+  bundle install
+  install_ssh
+}
+
+## use action instead for now
+# function install_ssh() {
+#   echo "🔑 Install SSH key"
+#   SSH_PATH="$HOME/.ssh"
+
+#   # key: ${{ secrets.SSH_KEY }}
+#   # name: id_ed25519
+#   # known_hosts: ${{ secrets.KNOWN_HOSTS }}
+#   # config: ${{ secrets.SSH_CONFIG }}
+# }
+
+function add_private_specs_repo() {
+  echo "📥 Add private specs repo"
+  bundle exec pod repo add specs-ios git@github.com:quintoandar/specs-ios.git
+}
+
+function deploy_to_testflight() {
+  echo "🛫 Deploy forno version to TestFlight"
+  bundle exec fastlane ios develop
+  send_comment_to_pr "🛫 A new build is available on Testflight!"
+}
+
+function deploy_to_appstore() {
+  echo "🚀 Deploy version to AppStore"
+  bundle exec fastlane ios production
+  send_comment_to_pr "🚀 A new build is available on AppStoreConnect!"
 }
