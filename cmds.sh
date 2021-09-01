@@ -20,6 +20,11 @@ function lint_pr_title() {
 function lint_pr_destination_branch() {
   echo "🔍 Check PR destination branch"
 
+  echo "destination=$DESTINATION_BRANCH"
+  echo "current=$CURRENT_BRANCH"
+  echo "stable=$STABLE_BRANCH"
+  echo "release=$RELEASE_BRANCH"
+
   if [[ "$DESTINATION_BRANCH" == "$STABLE_BRANCH" && "$CURRENT_BRANCH" != "$RELEASE_BRANCH" ]]; then
     send_comment_to_pr "$1"
     exit 1
