@@ -10,7 +10,7 @@ function lint_pr_title() {
   echo "🔍 Lint PR title"
 
   if [[ "$PR_TITLE" =~ $CONVENTIONAL_COMMIT_REGEX ]]; then
-    exit 0
+    echo "lint_pr_title ok"
   else 
     send_comment_to_pr "$1"
     exit 1
@@ -24,7 +24,7 @@ function lint_pr_destination_branch() {
     send_comment_to_pr "$1"
     exit 1
   else
-    exit 0
+    echo "lint_pr_destination_branch ok"
   fi
 }
 
