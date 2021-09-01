@@ -52,9 +52,11 @@ function setup_git() {
 }
 
 function fetch_tags() {
-  if [ -z "$CURRENT_BRANCH" ]; then
+  if [ -n "$CURRENT_BRANCH" ]; then
+    echo "using current branch... -> $CURRENT_BRANCH"
     git fetch --tags origin $CURRENT_BRANCH
   else
+    echo "using development branch... -> $DEVELOPMENT_BRANCH"
     git fetch --tags origin $DEVELOPMENT_BRANCH
   fi
 }
