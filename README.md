@@ -92,3 +92,44 @@ jobs:
           token: ${{ secrets.github_token }}
           stable-branch: master
 ```
+
+## Hotfix
+
+```yaml
+name: 👩‍🚒 Hotfix
+on:
+  pull_request:
+    types:
+      # use opened if the trigger is the branch name
+      # - opened
+      # use labeled if the trigger is the label
+      - labeled
+    branches:
+      - master
+      - release-train
+
+jobs:
+  hotfix:
+    # only triggers for `hotfix/*` branches
+    # if: startsWith(github.event.pull_request.head.ref, 'hotfix/')
+    # or
+    # trigger if a `release:hotfix` label is set
+    if: github.event.label.name == 'release:hotfix'
+    runs-on: ubuntu-latest
+    env:
+      CURRENT_BRANCH: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.CURRENT_BRANCH }}
+      - name: 👩‍🚒 Release hotfix
+        continue-on-error: false
+        uses: mugbug/release-train-action@v1-beta
+        with:
+          command: hotfix
+          token: ${{ secrets.github_token }}
+          current-branch: ${{ env.CURRENT_BRANCH }}
+          development-branch: develop
+          stable-branch: master
+          release-owner: mugbug
+```
