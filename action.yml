@@ -61,17 +61,8 @@ runs:
         
         export RELEASE_OWNER=${{ inputs.release-owner }}
 
-        export TITLE_LINT_MESSAGE=$(cat <<-END
-
-            ${{ inputs.title-lint-message }}
-        END
-        )
-
-        export BASE_BRANCH_LINT_MESSAGE=$(cat <<-END
-
-            ${{ inputs.base-branch-lint-message }}
-        END
-        )
+        echo ${{ inputs.title-lint-message }} > TITLE_LINT_MESSAGE.md
+        echo ${{ inputs.base-branch-lint-message }} > BASE_BRANCH_LINT_MESSAGE.md
 
         echo "run action"
         $ROOT_PATH/action.sh

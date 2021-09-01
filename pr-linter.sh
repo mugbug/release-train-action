@@ -3,11 +3,10 @@
 source $ROOT_PATH/cmds.sh
 
 login_to_github_cli
-lint_pr_title "$TITLE_LINT_MESSAGE"
-if [[ $? != 0 ]]; then 
-    exit $?
-fi
-lint_pr_destination_branch "$BASE_BRANCH_LINT_MESSAGE"
-if [[ $? != 0 ]]; then 
+cat TITLE_LINT_MESSAGE | lint_pr_title
+EXIT_CODE=$?
+cat BASE_BRANCH_LINT_MESSAGE | lint_pr_destination_branch
+
+if [[ $? != 0 || $EXIT_CODE != 0 ]]; then 
     exit $?
 fi
