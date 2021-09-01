@@ -5,7 +5,6 @@ source $ROOT_PATH/cmds.sh
 setup_git
 check_for_new_changes_available
 login_to_github_cli
-switch_to_release_branch
 save_current_release_notes
 run_standard_version
 push_changes_to_current_branch

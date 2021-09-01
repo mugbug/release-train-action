@@ -110,7 +110,6 @@ function update_with_base_branch() {
 
 function push_changes_to_current_branch() {
   echo "Push changes to $CURRENT_BRANCH"
-  git status
   git push origin $CURRENT_BRANCH
 }
 
