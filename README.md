@@ -56,14 +56,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: 🚞 Scheduled Release Train
+      - name: 🚞 Release Train
         continue-on-error: false
         uses: mugbug/release-train-action@v1-beta
         with:
           command: release-train
           token: ${{ secrets.github_token }}
-          destination-branch: ${{ github.event.pull_request.base.ref }}
-          current-branch: ${{ github.event.pull_request.head.ref }}
           development-branch: develop
           stable-branch: master
           release-branch: release-train
