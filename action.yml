@@ -60,8 +60,16 @@ runs:
         export STABLE_BRANCH=${{ inputs.stable-branch }}
         
         export RELEASE_OWNER=${{ inputs.release-owner }}
-        export BASE_BRANCH_LINT_MESSAGE=${{ inputs.base-branch-lint-message }}
-        export TITLE_LINT_MESSAGE=${{ inputs.title-lint-message }}
+
+        export BASE_BRANCH_LINT_MESSAGE=$(cat <<-END
+            ${{ inputs.base-branch-lint-message }}
+        END
+        )
+
+        export TITLE_LINT_MESSAGE=$(cat <<-END
+            ${{ inputs.base-branch-lint-message }}
+        END
+        )
 
         echo "run action"
         $ROOT_PATH/action.sh
