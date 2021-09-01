@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: 🔨 Setup environment
+      - name: 🚞 Scheduled Release Train
         continue-on-error: false
         uses: mugbug/release-train-action@v1-beta
         with:
@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: 🔨 Setup environment
+      - name: 🔖 Create tag and release
         continue-on-error: false
         uses: mugbug/release-train-action@v1-beta
         with:
