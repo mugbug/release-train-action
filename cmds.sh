@@ -71,7 +71,6 @@ function check_for_new_changes_available() {
         exit 1
     elif [[ $NEW_COMMITS ]]; then
         echo "New commits found"
-        exit 0
     else
         echo "No new changes."
         exit 1
