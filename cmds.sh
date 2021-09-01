@@ -128,7 +128,7 @@ function open_pull_request_to_development_branch() {
       --assignee $RELEASE_OWNER \
       --label release-train \
       --base $DEVELOPMENT_BRANCH \
-      --title "release: $PACKAGE_VERSION (update develop)" \
+      --title "release: $PACKAGE_VERSION (update $DEVELOPMENT_BRANCH)" \
       --body "$(cat RELEASE_NOTES.md)"
 }
 
@@ -146,8 +146,8 @@ function open_pull_requests() {
       --reviewer $RELEASE_OWNER \
       --assignee $RELEASE_OWNER \
       --label release-train \
-      --base $CURRENT_BRANCH \
-      --title "release: $PACKAGE_VERSION (update develop)" \
+      --base $DEVELOPMENT_BRANCH \
+      --title "release: $PACKAGE_VERSION (update $DEVELOPMENT_BRANCH)" \
       --body "$(cat RELEASE_NOTES.md)"
 }
 
