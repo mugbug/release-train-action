@@ -121,7 +121,7 @@ function open_pull_request_to_development_branch() {
   gh pr create --fill \
       --reviewer $RELEASE_OWNER \
       --assignee $RELEASE_OWNER \
-      # --label release-train \
+      --label release-train \
       --base $DEVELOPMENT_BRANCH \
       --title "release: $PACKAGE_VERSION (update $DEVELOPMENT_BRANCH)" \
       --body "$(cat RELEASE_NOTES.md)"
