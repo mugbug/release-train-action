@@ -10,9 +10,8 @@ function lint_pr_title() {
   echo "🔍 Lint PR title"
 
   if [[ "$PR_TITLE" =~ $CONVENTIONAL_COMMIT_REGEX ]]; then
-    echo "matches"
+    exit 0
   else 
-    echo "failure title lint"
     send_comment_to_pr "$1"
     exit 1
   fi
@@ -20,12 +19,12 @@ function lint_pr_title() {
 
 function lint_pr_destination_branch() {
   echo "🔍 Check PR destination branch"
+
   if [[ "$DESTINATION_BRANCH" == "$STABLE_BRANCH" && "$CURRENT_BRANCH" != "$RELEASE_BRANCH" ]]; then
-    echo "failure"
     send_comment_to_pr "$1"
     exit 1
   else
-    echo "ok!"
+    exit 0
   fi
 }
 
