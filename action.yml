@@ -62,11 +62,13 @@ runs:
         export RELEASE_OWNER=${{ inputs.release-owner }}
 
         export TITLE_LINT_MESSAGE=$(cat <<-END
-            ${{ inputs.base-branch-lint-message }}
+
+            ${{ inputs.title-lint-message }}
         END
         )
 
         export BASE_BRANCH_LINT_MESSAGE=$(cat <<-END
+
             ${{ inputs.base-branch-lint-message }}
         END
         )
