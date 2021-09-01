@@ -41,3 +41,54 @@ jobs:
 
             > for more info, check [our docs on git flow](http://google.com)
 ```
+
+## Scheduled release train
+
+```yaml
+name: 🚞 Scheduled Release Train
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 16 * * 4' # trigger a release every thursday at 16h UTC (1pm BRT)
+
+jobs:
+  release-train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 🔨 Setup environment
+        continue-on-error: false
+        uses: mugbug/release-train-action@v1-beta
+        with:
+          command: release-train
+          token: ${{ secrets.github_token }}
+          destination-branch: ${{ github.event.pull_request.base.ref }}
+          current-branch: ${{ github.event.pull_request.head.ref }}
+          development-branch: develop
+          stable-branch: master
+          release-branch: release-train
+          release-owner: mugbug
+```
+
+## Create tag and release
+
+```yaml
+name: 🔖 Create tag and release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 🔨 Setup environment
+        continue-on-error: false
+        uses: mugbug/release-train-action@v1-beta
+        with:
+          command: tag
+          token: ${{ secrets.github_token }}
+          stable-branch: master
+```
